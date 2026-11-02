@@ -1,5 +1,6 @@
 package safeBank;
 
+import safeBank.exceptions.InsufficientFundsException;
 import safeBank.exceptions.InvalidAmountException;
 
 import java.math.BigDecimal;
@@ -27,10 +28,13 @@ public class BankAccount {
     }
 
     public void deposit(BigDecimal bigDecimal) throws InvalidAmountException {
-     if (bigDecimal.compareTo(BigDecimal.ZERO)<0) throw new InvalidAmountException ("You cannot deposit negative amount");
+        if(bigDecimal==null)throw new InvalidAmountException("Amount cannot be null");
+      if (bigDecimal.compareTo(BigDecimal.ZERO)<0) throw new InvalidAmountException ("You cannot deposit negative amount");
      if(bigDecimal.compareTo(BigDecimal.ZERO)==0) throw new InvalidAmountException("You cannot deposit Zero Amount");
 
      balance = balance.add(bigDecimal);
+     Transaction transaction = new Transaction(TransactionType.DEPOSIT,bigDecimal);
+     transactions.add(transaction);
 
 
 
@@ -38,5 +42,21 @@ public class BankAccount {
 
     public BigDecimal getBalance() {
           return balance;
+    }
+
+    public void withdraw(BigDecimal bigDecimal) throws InvalidAmountException,InsufficientFundsException {
+              if(bigDecimal.compareTo(BigDecimal.ZERO)<0) throw new InvalidAmountException("Invalid amount");
+              if(bigDecimal.compareTo(BigDecimal.ZERO)==0)throw new InvalidAmountException("Invalid amount");
+              if(bigDecimal.compareTo(balance)>0)throw new InsufficientFundsException("InsufficientFunds");
+
+              balance=balance.subtract(bigDecimal);
+
+              Transaction transaction = new Transaction(TransactionType.WITHDRAW,bigDecimal);
+              transactions.add(transaction);
+
+    }
+
+    public List<Transaction> getTransactions() {
+           return transactions;
     }
 }
