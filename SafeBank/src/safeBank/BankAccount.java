@@ -51,12 +51,14 @@ public class BankAccount {
 
               balance=balance.subtract(bigDecimal);
 
-              Transaction transaction = new Transaction(TransactionType.WITHDRAW,bigDecimal);
+              Transaction transaction = new Transaction(TransactionType.WITHDRAWAL,bigDecimal);
               transactions.add(transaction);
 
     }
 
     public List<Transaction> getTransactions() {
-           return transactions;
+
+
+        return List.copyOf(transactions);
     }
 }
