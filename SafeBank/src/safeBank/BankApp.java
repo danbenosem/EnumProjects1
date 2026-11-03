@@ -1,5 +1,6 @@
 package safeBank;
 
+import safeBank.exceptions.InsufficientFundsException;
 import safeBank.exceptions.InvalidAmountException;
 
 import java.math.BigDecimal;
@@ -44,11 +45,19 @@ public class BankApp {
                     break;
 
                 case 3:
-                    // Withdraw
+                    try {
+                        System.out.print("Enter the amount you want to Withdraw: ");
+                        BigDecimal withdrawAmount = new BigDecimal(input.nextLine());
+                        account.withdraw(withdrawAmount);
+                        System.out.print("Deposit Sucessful ");
+                    }catch (InvalidAmountException | NumberFormatException | InsufficientFundsException e){
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
 
                 case 4:
-                    // Transaction history
+                    System.out.print(account.getTransactions());
                     break;
 
                 case 5:

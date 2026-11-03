@@ -12,7 +12,10 @@ public class Transaction {
         this.amount = amount;
     }
 
-
+    @Override
+    public String toString() {
+        return "Type: " + type + ", Amount: " + amount;
+    }
 
 
 }
